@@ -1,0 +1,65 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.ar.sceneform.plugin'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.demo.ar"
+        minSdkVersion 24
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            /*
+             * Sceneform is available for the following ABIs:
+             * 'arm64-v8a', 'armeabi-v7a', 'x86_64' and 'x86'.
+             * Your application should include the ABIs most appropriate to
+             * minimize APK size. Listing 'arm64-v8a' is recommended.
+             *
+             * This sample app includes two ABIs:
+             * 1. 'arm64-v8a' to run on devices
+             * 2. 'x86' to run in the Android emulator
+             */
+            abiFilters 'arm64-v8a', 'x86'
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:28.+'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    // ARCore library
+    implementation 'com.google.ar:core:1.5.0'
+    // Provides ArFragment, and other Sceneform UX resources:
+    implementation "com.google.ar.sceneform.ux:sceneform-ux:1.5.1"
+}
+
+
+sceneform.asset('sampledata/models/andy.obj',
+        'default',
+        'sampledata/models/andy.sfa',
+        'src/main/assets/andy')
+
+sceneform.asset('sampledata/models/z.fbx',
+        'default',
+        'sampledata/models/z.sfa',
+        'src/main/assets/z')
